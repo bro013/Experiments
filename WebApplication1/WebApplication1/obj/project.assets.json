@@ -11800,11 +11800,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\rosla\\source\\repos\\WebApplication1\\WebApplication1\\WebApplication1.csproj",
+      "projectUniqueName": "C:\\Users\\rosla\\Documents\\GitHub\\Experiments\\WebApplication1\\WebApplication1\\WebApplication1.csproj",
       "projectName": "WebApplication1",
-      "projectPath": "C:\\Users\\rosla\\source\\repos\\WebApplication1\\WebApplication1\\WebApplication1.csproj",
+      "projectPath": "C:\\Users\\rosla\\Documents\\GitHub\\Experiments\\WebApplication1\\WebApplication1\\WebApplication1.csproj",
       "packagesPath": "C:\\Users\\rosla\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\rosla\\source\\repos\\WebApplication1\\WebApplication1\\obj\\",
+      "outputPath": "C:\\Users\\rosla\\Documents\\GitHub\\Experiments\\WebApplication1\\WebApplication1\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
