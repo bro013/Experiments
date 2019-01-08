@@ -20,39 +20,47 @@ namespace RelaySender
 
         private static async Task RunAsync()
         {
-            Console.WriteLine("Enter lines of text to send to the server with ENTER");
-            var tokenProvider = TokenProvider.CreateSharedAccessSignatureTokenProvider(KeyName, Key);
-            var client = new HybridConnectionClient(new Uri(String.Format("sb://{0}/{1}", RelayNamespace, ConnectionName)), tokenProvider);
-            var relayConnection = await client.CreateConnectionAsync();
-            var reads = Task.Run(async () =>
+            try
             {
-                var reader = new StreamReader(relayConnection);
-                var writer = Console.Out;
-                do
+                Console.WriteLine("Enter lines of text to send to the server with ENTER");
+                var tokenProvider = TokenProvider.CreateSharedAccessSignatureTokenProvider(KeyName, Key);
+                var client = new HybridConnectionClient(new Uri(String.Format("sb://{0}/{1}", RelayNamespace, ConnectionName)), tokenProvider);
+                var relayConnection = await client.CreateConnectionAsync();
+                var reads = Task.Run(async () =>
                 {
-                    string line = await reader.ReadLineAsync();
-                    if (String.IsNullOrEmpty(line))
-                        break;
-                    await writer.WriteLineAsync(line);
-                }
-                while (true);
-            });
+                    var reader = new StreamReader(relayConnection);
+                    var writer = Console.Out;
+                    do
+                    {
+                        string line = await reader.ReadLineAsync();
+                        if (String.IsNullOrEmpty(line))
+                            break;
+                        await writer.WriteLineAsync(line);
+                    }
+                    while (true);
+                });
 
-            var writes = Task.Run(async () =>
-            {
-                var reader = Console.In;
-                var writer = new StreamWriter(relayConnection) { AutoFlush = true };
-                do
+                var writes = Task.Run(async () =>
                 {
-                    string line = await reader.ReadLineAsync();
-                    await writer.WriteLineAsync(line);
-                    if (String.IsNullOrEmpty(line))
-                        break;
-                }
-                while (true);
-            });
-            await Task.WhenAll(reads, writes);
-            await relayConnection.CloseAsync(CancellationToken.None);
+                    var reader = Console.In;
+                    var writer = new StreamWriter(relayConnection) { AutoFlush = true };
+                    do
+                    {
+                        string line = await reader.ReadLineAsync();
+                        await writer.WriteLineAsync(line);
+                        if (String.IsNullOrEmpty(line))
+                            break;
+                    }
+                    while (true);
+                });
+                await Task.WhenAll(reads, writes);
+                await relayConnection.CloseAsync(CancellationToken.None);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message + e.StackTrace);
+                Console.ReadKey();
+            }
         }
     }
 }

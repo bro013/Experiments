@@ -48,9 +48,9 @@ namespace RelayListener
                     Console.WriteLine(line);
                     await writer.WriteLineAsync($"Echo: {line}");
                 }
-                catch (Exception e)
+                catch (IOException)
                 {
-                    Console.WriteLine(e.Message);
+                    Console.WriteLine("Client closed connection");
                     break;
                 }
             }
@@ -80,9 +80,9 @@ namespace RelayListener
                 if (relayConnection == null)
                     break;
                 ProcessMessagesOnConnection(relayConnection, cts);
-                await listener.CloseAsync(cts.Token);
-
+               
             }
+            await listener.CloseAsync(cts.Token);
         }
     }
 }
