@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/bdca24da-0a6c-434e-b969-d49640cc55f5/resourceGroups/Roslanden/providers/Microsoft.Web/sites/roslanden-helloworld",
+    "appService.deploySubpath": ""
+}
