@@ -15,7 +15,8 @@ using Microsoft.OData.Edm;
 using BookStore.Models;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc.Formatters.Xml;
+using Microsoft.Net.Http.Headers;
 
 namespace BookStore
 {
@@ -31,11 +32,11 @@ namespace BookStore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string connectionString = Configuration["ConnectionString"];
-            services.AddDbContext<BookStoreContext>(opt => opt.UseSqlServer(connectionString));
+            services.AddMvc().AddXmlSerializerFormatters();
+
+            services.AddDbContext<BookStoreContext>(opt => opt.UseSqlServer(Configuration["ConnectionString"]));
             services.AddOData();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddMvc().AddMvcOptions(o => o.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,13 +50,13 @@ namespace BookStore
             {
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
             app.UseMvc(b =>
             {
                 b.Select().Expand().Filter().OrderBy().MaxTop(100).Count();
                 b.MapODataServiceRoute("odata", "odata", GetEdmModel());
             });
+
 
         }
 

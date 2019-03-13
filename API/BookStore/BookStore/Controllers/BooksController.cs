@@ -18,14 +18,12 @@ namespace BookStore.Controllers
         }
 
         [EnableQuery]
-        [Produces("application/xml", "application/json")]
         public IActionResult Get()
         {
             return Ok(_db.Books);
         }
 
         [EnableQuery]
-        [Produces("application/xml", "application/json")]
         public IActionResult Get(int key)
         {
             return Ok(_db.Books.FirstOrDefault(c => c.Id == key));
